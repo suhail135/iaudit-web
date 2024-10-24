@@ -2,10 +2,11 @@ import { Helmet } from 'react-helmet-async';
 
 import { CONFIG } from 'src/config-global';
 
-import { AmplifyResetPasswordView } from 'src/auth/view/amplify';
+import { SplitResetPasswordView } from 'src/auth/view/jwt/split-reset-password-view';
+
 // ----------------------------------------------------------------------
 
-const metadata = { title: `Reset password | Amplify - ${CONFIG.appName}` };
+const metadata = { title: `Reset password | Layout split - ${CONFIG.appName}` };
 
 export default function Page() {
   return (
@@ -14,7 +15,7 @@ export default function Page() {
         <title> {metadata.title}</title>
       </Helmet>
 
-      <AmplifyResetPasswordView />
+      <SplitResetPasswordView />
     </>
   );
 }

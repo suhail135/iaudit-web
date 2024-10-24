@@ -32,9 +32,9 @@ export function Section({
   method,
   layoutQuery,
   methods,
-  title = 'Manage the job',
+  title = 'Audit Smarter, Not Harder',
   imgUrl = `${CONFIG.assetsDir}/assets/illustrations/illustration-dashboard.webp`,
-  subtitle = 'More effectively with optimized workflows.',
+  subtitle = 'Audit Smarter, Not Harder: Welcome to the Future of Compliance Management',
   ...other
 }: SectionProps) {
   const theme = useTheme();

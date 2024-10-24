@@ -2,11 +2,11 @@ import { Helmet } from 'react-helmet-async';
 
 import { CONFIG } from 'src/config-global';
 
-import { SupabaseSignInView } from 'src/auth/view/supabase';
+import { SplitVerifyView } from 'src/auth/view/jwt/split-verify-view';
 
 // ----------------------------------------------------------------------
 
-const metadata = { title: `Sign in | Supabase - ${CONFIG.appName}` };
+const metadata = { title: `Verify | Layout split - ${CONFIG.appName}` };
 
 export default function Page() {
   return (
@@ -15,7 +15,7 @@ export default function Page() {
         <title> {metadata.title}</title>
       </Helmet>
 
-      <SupabaseSignInView />
+      <SplitVerifyView />
     </>
   );
 }

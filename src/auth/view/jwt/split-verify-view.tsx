@@ -1,5 +1,4 @@
 import { z as zod } from 'zod';
-import { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
@@ -7,9 +6,6 @@ import Box from '@mui/material/Box';
 import LoadingButton from '@mui/lab/LoadingButton';
 
 import { paths } from 'src/routes/paths';
-import { useRouter, useSearchParams } from 'src/routes/hooks';
-
-import { useCountdownSeconds } from 'src/hooks/use-countdown';
 
 import { EmailInboxIcon } from 'src/assets/icons';
 
@@ -18,7 +14,6 @@ import { Form, Field } from 'src/components/hook-form';
 import { FormHead } from '../../components/form-head';
 import { FormReturnLink } from '../../components/form-return-link';
 import { FormResendCode } from '../../components/form-resend-code';
-import { confirmSignUp, resendSignUpCode } from '../../context/amplify';
 
 // ----------------------------------------------------------------------
 
@@ -37,16 +32,8 @@ export const VerifySchema = zod.object({
 
 // ----------------------------------------------------------------------
 
-export function AmplifyVerifyView() {
-  const router = useRouter();
-
-  const searchParams = useSearchParams();
-
-  const email = searchParams.get('email');
-
-  const countdown = useCountdownSeconds(5);
-
-  const defaultValues = { code: '', email: email || '' };
+export function SplitVerifyView() {
+  const defaultValues = { code: '', email: '' };
 
   const methods = useForm<VerifySchemaType>({
     resolver: zodResolver(VerifySchema),
@@ -54,34 +41,18 @@ export function AmplifyVerifyView() {
   });
 
   const {
-    watch,
     handleSubmit,
     formState: { isSubmitting },
   } = methods;
 
-  const values = watch();
-
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await confirmSignUp({ username: data.email, confirmationCode: data.code });
-      router.push(paths.auth.amplify.signIn);
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      console.info('DATA', data);
     } catch (error) {
       console.error(error);
     }
   });
-
-  const handleResendCode = useCallback(async () => {
-    if (!countdown.isCounting) {
-      try {
-        countdown.reset();
-        countdown.start();
-
-        await resendSignUpCode?.({ username: values.email });
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  }, [countdown, values.email]);
 
   const renderForm = (
     <Box gap={3} display="flex" flexDirection="column">
@@ -90,7 +61,6 @@ export function AmplifyVerifyView() {
         label="Email address"
         placeholder="example@gmail.com"
         InputLabelProps={{ shrink: true }}
-        disabled
       />
 
       <Field.Code name="code" />
@@ -120,13 +90,9 @@ export function AmplifyVerifyView() {
         {renderForm}
       </Form>
 
-      <FormResendCode
-        onResendCode={handleResendCode}
-        value={countdown.value}
-        disabled={countdown.isCounting}
-      />
+      <FormResendCode onResendCode={() => {}} value={0} disabled={false} />
 
-      <FormReturnLink href={paths.auth.amplify.signIn} />
+      <FormReturnLink href={paths.auth.signIn} />
     </>
   );
 }

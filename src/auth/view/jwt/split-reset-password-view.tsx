@@ -6,13 +6,11 @@ import Box from '@mui/material/Box';
 import LoadingButton from '@mui/lab/LoadingButton';
 
 import { paths } from 'src/routes/paths';
-import { useRouter } from 'src/routes/hooks';
 
 import { PasswordIcon } from 'src/assets/icons';
 
 import { Form, Field } from 'src/components/hook-form';
 
-import { resetPassword } from '../../context/amplify';
 import { FormHead } from '../../components/form-head';
 import { FormReturnLink } from '../../components/form-return-link';
 
@@ -29,12 +27,8 @@ export const ResetPasswordSchema = zod.object({
 
 // ----------------------------------------------------------------------
 
-export function AmplifyResetPasswordView() {
-  const router = useRouter();
-
-  const defaultValues = {
-    email: '',
-  };
+export function SplitResetPasswordView() {
+  const defaultValues = { email: '' };
 
   const methods = useForm<ResetPasswordSchemaType>({
     resolver: zodResolver(ResetPasswordSchema),
@@ -48,12 +42,8 @@ export function AmplifyResetPasswordView() {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await resetPassword({ username: data.email });
-
-      const searchParams = new URLSearchParams({ email: data.email }).toString();
-
-      const href = `${paths.auth.amplify.updatePassword}?${searchParams}`;
-      router.push(href);
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      console.info('DATA', data);
     } catch (error) {
       console.error(error);
     }
@@ -94,7 +84,7 @@ export function AmplifyResetPasswordView() {
         {renderForm}
       </Form>
 
-      <FormReturnLink href={paths.auth.amplify.signIn} />
+      <FormReturnLink href={paths.auth.signIn} />
     </>
   );
 }

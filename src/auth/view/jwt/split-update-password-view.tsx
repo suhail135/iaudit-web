@@ -16,9 +16,9 @@ import { SentIcon } from 'src/assets/icons';
 import { Iconify } from 'src/components/iconify';
 import { Form, Field } from 'src/components/hook-form';
 
-import { FormHead } from '../../../components/form-head';
-import { FormResendCode } from '../../../components/form-resend-code';
-import { FormReturnLink } from '../../../components/form-return-link';
+import { FormHead } from '../../components/form-head';
+import { FormResendCode } from '../../components/form-resend-code';
+import { FormReturnLink } from '../../components/form-return-link';
 
 // ----------------------------------------------------------------------
 
@@ -147,7 +147,7 @@ export function SplitUpdatePasswordView() {
 
       <FormResendCode onResendCode={() => {}} value={0} disabled={false} />
 
-      <FormReturnLink href={paths.authDemo.split.signIn} />
+      <FormReturnLink href={paths.auth.signIn} />
     </>
   );
 }
