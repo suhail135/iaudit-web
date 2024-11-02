@@ -38,6 +38,18 @@ const UserListPage = lazy(() => import('src/pages/dashboard/user/list'));
 const UserAccountPage = lazy(() => import('src/pages/dashboard/user/account'));
 const UserCreatePage = lazy(() => import('src/pages/dashboard/user/new'));
 const UserEditPage = lazy(() => import('src/pages/dashboard/user/edit'));
+
+// Company details
+
+const CompanyDetailsPage = lazy(() => import('src/pages/dashboard/company/details'));
+
+// User
+const CompanyProfilePage = lazy(() => import('src/pages/dashboard/companyList/profile'));
+const CompanyListPage = lazy(() => import('src/pages/dashboard/companyList/list'));
+const CompanyAccountPage = lazy(() => import('src/pages/dashboard/companyList/account'));
+const CompanyCreatePage = lazy(() => import('src/pages/dashboard/companyList/new'));
+const CompanyEditPage = lazy(() => import('src/pages/dashboard/companyList/edit'));
+
 // Blog
 const BlogPostsPage = lazy(() => import('src/pages/dashboard/post/list'));
 const BlogPostPage = lazy(() => import('src/pages/dashboard/post/details'));
@@ -66,6 +78,11 @@ const PermissionDeniedPage = lazy(() => import('src/pages/dashboard/permission')
 const ParamsPage = lazy(() => import('src/pages/dashboard/params'));
 const BlankPage = lazy(() => import('src/pages/dashboard/blank'));
 
+// Membership
+const MembershipListPage = lazy(() => import('src/pages/dashboard/membership/list'));
+const MembershipDetailsPage = lazy(() => import('src/pages/dashboard/membership/details'));
+const MembershipEditPage = lazy(() => import('src/pages/dashboard/membership/edit'));
+const MembershipCreatePage = lazy(() => import('src/pages/dashboard/membership/new'));
 // ----------------------------------------------------------------------
 
 const layoutContent = (
@@ -101,6 +118,21 @@ export const dashboardRoutes = [
         ],
       },
       {
+        path: 'company',
+        children: [{ path: ':id/edit', element: <CompanyDetailsPage /> }],
+      },
+      {
+        path: 'company-list',
+        children: [
+          { element: <CompanyProfilePage />, index: true },
+          { path: 'profile', element: <CompanyProfilePage /> },
+          { path: 'list', element: <CompanyListPage /> },
+          { path: 'new', element: <CompanyCreatePage /> },
+          { path: ':id/edit', element: <CompanyEditPage /> },
+          { path: 'account', element: <CompanyAccountPage /> },
+        ],
+      },
+      {
         path: 'product',
         children: [
           { element: <ProductListPage />, index: true },
@@ -116,6 +148,16 @@ export const dashboardRoutes = [
           { element: <OrderListPage />, index: true },
           { path: 'list', element: <OrderListPage /> },
           { path: ':id', element: <OrderDetailsPage /> },
+        ],
+      },
+      {
+        path: 'memberships',
+        children: [
+          { element: <MembershipListPage />, index: true },
+          { path: 'list', element: <MembershipListPage /> },
+          { path: ':id', element: <MembershipDetailsPage /> },
+          { path: ':id/edit', element: <MembershipEditPage /> },
+          { path: 'new', element: <MembershipCreatePage /> },
         ],
       },
       {

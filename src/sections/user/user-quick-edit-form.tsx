@@ -16,14 +16,19 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 
-import { USER_STATUS_OPTIONS } from 'src/_mock';
-
 import { toast } from 'src/components/snackbar';
 import { Form, Field, schemaHelper } from 'src/components/hook-form';
 
 // ----------------------------------------------------------------------
 
 export type UserQuickEditSchemaType = zod.infer<typeof UserQuickEditSchema>;
+
+const USER_STATUS_OPTIONS = [
+  { value: 'active', label: 'Active' },
+  { value: 'pending', label: 'Pending' },
+  { value: 'banned', label: 'Banned' },
+  { value: 'rejected', label: 'Rejected' },
+];
 
 export const UserQuickEditSchema = zod.object({
   name: zod.string().min(1, { message: 'Name is required!' }),

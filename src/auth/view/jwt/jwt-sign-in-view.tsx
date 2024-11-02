@@ -50,7 +50,7 @@ export function JwtSignInView() {
   const password = useBoolean();
 
   const defaultValues = {
-    email: 'test@iaudit.com',
+    email: 'admin@gmail.com',
     password: 'password',
   };
 

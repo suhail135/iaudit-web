@@ -16,19 +16,19 @@ import { varAlpha, bgGradient } from 'src/theme/styles';
 
 import { Label } from 'src/components/label';
 
-import { useMockedUser } from 'src/auth/hooks';
+import { useAuthContext } from 'src/auth/hooks';
 
 // ----------------------------------------------------------------------
 
 export function NavUpgrade({ sx, ...other }: StackProps) {
-  const { user } = useMockedUser();
+  const { user } = useAuthContext();
 
   return (
     <Stack sx={{ px: 2, py: 5, textAlign: 'center', ...sx }} {...other}>
       <Stack alignItems="center">
         <Box sx={{ position: 'relative' }}>
-          <Avatar src={user?.photoURL} alt={user?.displayName} sx={{ width: 48, height: 48 }}>
-            {user?.displayName?.charAt(0).toUpperCase()}
+          <Avatar src={user?.photoURL} alt={user?.firstName} sx={{ width: 48, height: 48 }}>
+            {user?.firstName?.charAt(0).toUpperCase()}
           </Avatar>
 
           <Label
@@ -53,7 +53,7 @@ export function NavUpgrade({ sx, ...other }: StackProps) {
             noWrap
             sx={{ color: 'var(--layout-nav-text-primary-color)' }}
           >
-            {user?.displayName}
+            {user?.firstName} {user?.lastName}
           </Typography>
 
           <Typography
@@ -66,7 +66,7 @@ export function NavUpgrade({ sx, ...other }: StackProps) {
         </Stack>
 
         <Button variant="contained" href={paths.minimalStore} target="_blank" rel="noopener">
-          Upgrade to Pro
+          Upgrade Membership
         </Button>
       </Stack>
     </Stack>

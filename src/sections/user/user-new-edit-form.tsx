@@ -1,5 +1,3 @@
-import type { IUserItem } from 'src/types/user';
-
 import { z as zod } from 'zod';
 import { useMemo } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -11,6 +9,7 @@ import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Switch from '@mui/material/Switch';
+import MenuItem from '@mui/material/MenuItem';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -20,61 +19,89 @@ import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 
 import { fData } from 'src/utils/format-number';
+import { uploadFiles } from 'src/utils/fileupload';
+
+import { CONFIG } from 'src/config-global';
 
 import { Label } from 'src/components/label';
 import { toast } from 'src/components/snackbar';
 import { Form, Field, schemaHelper } from 'src/components/hook-form';
+
+import { createUser, updateUser } from './api/user';
+import { useGetMemberships } from '../memberships/api/membership';
+
+import type { IUser } from './type/users';
 
 // ----------------------------------------------------------------------
 
 export type NewUserSchemaType = zod.infer<typeof NewUserSchema>;
 
 export const NewUserSchema = zod.object({
-  avatarUrl: schemaHelper.file({ message: { required_error: 'Avatar is required!' } }),
-  name: zod.string().min(1, { message: 'Name is required!' }),
+  firstName: zod.string().min(1, { message: 'First Name is required!' }),
+  lastName: zod.string().min(1, { message: 'Last Name is required!' }),
+
   email: zod
     .string()
     .min(1, { message: 'Email is required!' })
     .email({ message: 'Email must be a valid email address!' }),
-  phoneNumber: schemaHelper.phoneNumber({ isValidPhoneNumber }),
+  password: zod.string().min(1, { message: 'Password is required!' }),
+  logo: schemaHelper.file({ message: { required_error: 'Avatar is required!' } }).optional(),
+  phone_number: schemaHelper.phoneNumber({ isValidPhoneNumber }),
   country: schemaHelper.objectOrNull<string | null>({
     message: { required_error: 'Country is required!' },
   }),
-  address: zod.string().min(1, { message: 'Address is required!' }),
-  company: zod.string().min(1, { message: 'Company is required!' }),
   state: zod.string().min(1, { message: 'State is required!' }),
   city: zod.string().min(1, { message: 'City is required!' }),
-  role: zod.string().min(1, { message: 'Role is required!' }),
-  zipCode: zod.string().min(1, { message: 'Zip code is required!' }),
-  // Not required
+  address: zod.string().min(1, { message: 'Address is required!' }),
+  zip_code: zod.string().min(1, { message: 'Zip code is required!' }),
+  company_role: zod.string().min(1, { message: 'Company Role is required!' }),
+  timezone: zod.string().min(1, { message: 'Timezone is required!' }),
+  verified: zod.boolean(),
+  isActive: zod.boolean(),
+  // roleId: zod.string().min(1, { message: 'Role ID is required!' }),
+  membershipId: zod.string().min(1, { message: 'Membership ID is required!' }),
   status: zod.string(),
-  isVerified: zod.boolean(),
+  company: zod.string().min(1, { message: 'Company is required!' }),
 });
 
 // ----------------------------------------------------------------------
 
 type Props = {
-  currentUser?: IUserItem;
+  currentUser?: IUser;
 };
+
+const USER_STATUS_OPTIONS = [
+  { value: 'active', label: 'Active' },
+  { value: 'pending', label: 'Pending' },
+  { value: 'banned', label: 'Banned' },
+  { value: 'rejected', label: 'Rejected' },
+];
 
 export function UserNewEditForm({ currentUser }: Props) {
   const router = useRouter();
 
+  const { memberships } = useGetMemberships();
+
   const defaultValues = useMemo(
     () => ({
-      status: currentUser?.status || '',
-      avatarUrl: currentUser?.avatarUrl || null,
-      isVerified: currentUser?.isVerified || true,
-      name: currentUser?.name || '',
+      firstName: currentUser?.firstName || '',
+      lastName: currentUser?.lastName || '',
       email: currentUser?.email || '',
-      phoneNumber: currentUser?.phoneNumber || '',
+      password: currentUser?.password || '',
+      phone_number: currentUser?.phone_number || '',
       country: currentUser?.country || '',
       state: currentUser?.state || '',
       city: currentUser?.city || '',
       address: currentUser?.address || '',
-      zipCode: currentUser?.zipCode || '',
+      zip_code: currentUser?.zip_code || '',
+      company_role: currentUser?.company_role || '',
+      logo: `${CONFIG.s3Assets}${currentUser?.logo}` || '',
+      timezone: currentUser?.timezone || '',
+      verified: currentUser?.verified || false,
+      isActive: currentUser?.isActive || false,
+      membershipId: currentUser?.membershipId || '',
       company: currentUser?.company || '',
-      role: currentUser?.role || '',
+      status: currentUser?.status || '',
     }),
     [currentUser]
   );
@@ -90,20 +117,57 @@ export function UserNewEditForm({ currentUser }: Props) {
     watch,
     control,
     handleSubmit,
-    formState: { isSubmitting },
+    formState: { isSubmitting, errors },
   } = methods;
 
   const values = watch();
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      if (currentUser) {
+        if (typeof data.logo === 'string') {
+          delete data.logo;
+          await updateUser(currentUser.id, {
+            ...data,
+            id: currentUser.id,
+          });
+        } else {
+          await uploadFiles([data.logo], 'user_logo', async (fileDetails: any) => {
+            if (fileDetails && Object.values(fileDetails)[0]) {
+              await updateUser(currentUser.id, {
+                ...data,
+                id: currentUser.id,
+                logo: (Object.values(fileDetails)[0] as { fields: { key: string } }).fields.key,
+              });
+            }
+          });
+        }
+        toast.success('Update success!');
+        router.push(paths.dashboard.user.list);
+      } else {
+        await uploadFiles([data.logo], 'user_logo', async (fileDetails: any) => {
+          if (fileDetails && Object.values(fileDetails)[0]) {
+            await createUser({
+              ...data,
+              roleId: 'f9adfadc-4ece-4839-96d2-d5a9130bb4d6',
+              logo: (Object.values(fileDetails)[0] as { fields: { key: string } }).fields.key,
+            });
+
+            toast.success('Create success!');
+            router.push(paths.dashboard.user.list);
+          }
+        });
+      }
       reset();
       toast.success(currentUser ? 'Update success!' : 'Create success!');
       router.push(paths.dashboard.user.list);
-      console.info('DATA', data);
     } catch (error) {
       console.error(error);
+      if (error.response) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error('Something went wrong!');
+      }
     }
   });
 
@@ -127,7 +191,7 @@ export function UserNewEditForm({ currentUser }: Props) {
 
             <Box sx={{ mb: 5 }}>
               <Field.UploadAvatar
-                name="avatarUrl"
+                name="logo"
                 maxSize={3145728}
                 helperText={
                   <Typography
@@ -218,23 +282,40 @@ export function UserNewEditForm({ currentUser }: Props) {
               display="grid"
               gridTemplateColumns={{ xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)' }}
             >
-              <Field.Text name="name" label="Full name" />
+              <Field.Text name="firstName" label="First name" />
+              <Field.Text name="lastName" label="Last name" />
               <Field.Text name="email" label="Email address" />
-              <Field.Phone name="phoneNumber" label="Phone number" />
-
+              <Field.Text name="password" label="Password" />
+              <Field.Text name="phone_number" label="Phone number" />
               <Field.CountrySelect
                 fullWidth
                 name="country"
                 label="Country"
                 placeholder="Choose a country"
               />
-
-              <Field.Text name="state" label="State/region" />
+              <Field.Text name="state" label="State" />
               <Field.Text name="city" label="City" />
               <Field.Text name="address" label="Address" />
-              <Field.Text name="zipCode" label="Zip/code" />
+              <Field.Text name="zip_code" label="Zip code" />
               <Field.Text name="company" label="Company" />
-              <Field.Text name="role" label="Role" />
+              <Field.Text name="company_role" label="Company role" />
+              <Field.Text name="timezone" label="Timezone" />
+              <Field.Select name="status" label="Status ">
+                {USER_STATUS_OPTIONS.map((status) => (
+                  <MenuItem key={status.value} value={status.value}>
+                    {status.label}
+                  </MenuItem>
+                ))}
+              </Field.Select>
+
+              {/* <Field.Text  name="roleId" label="Role ID" /> */}
+              <Field.Select name="membershipId" label="Membership ">
+                {memberships.map((membership) => (
+                  <MenuItem key={membership.id} value={membership.id}>
+                    {membership.name}
+                  </MenuItem>
+                ))}
+              </Field.Select>
             </Box>
 
             <Stack alignItems="flex-end" sx={{ mt: 3 }}>

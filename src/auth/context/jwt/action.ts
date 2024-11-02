@@ -22,17 +22,17 @@ export type SignUpParams = {
  *************************************** */
 export const signInWithPassword = async ({ email, password }: SignInParams): Promise<void> => {
   try {
-    const params = { email, password };
+    const params = { username: email, password };
 
     const res = await axios.post(endpoints.auth.signIn, params);
 
-    const { accessToken } = res.data;
+    const { user } = res.data;
 
-    if (!accessToken) {
-      throw new Error('Access token not found in response');
-    }
+    // if (!accessToken) {
+    //   throw new Error('Access token not found in response');
+    // }
 
-    setSession(accessToken);
+    setSession(user);
   } catch (error) {
     console.error('Error during sign in:', error);
     throw error;

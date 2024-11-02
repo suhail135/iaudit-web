@@ -1,5 +1,3 @@
-import type { IUserItem } from 'src/types/user';
-
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
@@ -15,17 +13,19 @@ import IconButton from '@mui/material/IconButton';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
+import { CONFIG } from 'src/config-global';
+
 import { Label } from 'src/components/label';
 import { Iconify } from 'src/components/iconify';
 import { ConfirmDialog } from 'src/components/custom-dialog';
 import { usePopover, CustomPopover } from 'src/components/custom-popover';
 
-import { UserQuickEditForm } from './user-quick-edit-form';
+import type { IUser } from './type/users';
 
 // ----------------------------------------------------------------------
 
 type Props = {
-  row: IUserItem;
+  row: IUser;
   selected: boolean;
   onEditRow: () => void;
   onSelectRow: () => void;
@@ -39,6 +39,8 @@ export function UserTableRow({ row, selected, onEditRow, onSelectRow, onDeleteRo
 
   const quickEdit = useBoolean();
 
+  const name = `${row.firstName} ${row.lastName}`;
+
   return (
     <>
       <TableRow hover selected={selected} aria-checked={selected} tabIndex={-1}>
@@ -48,11 +50,11 @@ export function UserTableRow({ row, selected, onEditRow, onSelectRow, onDeleteRo
 
         <TableCell>
           <Stack spacing={2} direction="row" alignItems="center">
-            <Avatar alt={row.name} src={row.avatarUrl} />
+            <Avatar alt={name} src={`${CONFIG.s3Assets}${row.logo}`} />
 
             <Stack sx={{ typography: 'body2', flex: '1 1 auto', alignItems: 'flex-start' }}>
               <Link color="inherit" onClick={onEditRow} sx={{ cursor: 'pointer' }}>
-                {row.name}
+                {name}
               </Link>
               <Box component="span" sx={{ color: 'text.disabled' }}>
                 {row.email}
@@ -61,11 +63,11 @@ export function UserTableRow({ row, selected, onEditRow, onSelectRow, onDeleteRo
           </Stack>
         </TableCell>
 
-        <TableCell sx={{ whiteSpace: 'nowrap' }}>{row.phoneNumber}</TableCell>
+        <TableCell sx={{ whiteSpace: 'nowrap' }}>{row.phone_number}</TableCell>
 
         <TableCell sx={{ whiteSpace: 'nowrap' }}>{row.company}</TableCell>
 
-        <TableCell sx={{ whiteSpace: 'nowrap' }}>{row.role}</TableCell>
+        <TableCell sx={{ whiteSpace: 'nowrap' }}>{row.company_role}</TableCell>
 
         <TableCell>
           <Label
@@ -98,8 +100,6 @@ export function UserTableRow({ row, selected, onEditRow, onSelectRow, onDeleteRo
           </Stack>
         </TableCell>
       </TableRow>
-
-      <UserQuickEditForm currentUser={row} open={quickEdit.value} onClose={quickEdit.onFalse} />
 
       <CustomPopover
         open={popover.open}

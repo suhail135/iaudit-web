@@ -1,3 +1,4 @@
+import { toast } from 'sonner';
 import { useState, useEffect, useCallback } from 'react';
 
 import { paths } from 'src/routes/paths';
@@ -22,7 +23,7 @@ export function AuthGuard({ children }: Props) {
 
   const searchParams = useSearchParams();
 
-  const { authenticated, loading } = useAuthContext();
+  const { authenticated, loading, user } = useAuthContext();
 
   const [isChecking, setIsChecking] = useState<boolean>(true);
 
@@ -52,6 +53,21 @@ export function AuthGuard({ children }: Props) {
 
       router.replace(href);
       return;
+    }
+
+    const userRoles = ['membership', 'company'];
+
+    if (user?.role === 'ADMIN') {
+      // console.log(pathname);
+      // console.log(searchParams);
+
+      toast.error('You are not authorized to access this page');
+
+      // if any key in userRoles is not pathname the redirect to login
+
+      // const href = `${paths.auth.signIn}`;
+      // router.replace(href);
+      // return;
     }
 
     setIsChecking(false);

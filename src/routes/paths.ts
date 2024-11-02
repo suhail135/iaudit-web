@@ -72,8 +72,20 @@ export const paths = {
       file: `${ROOTS.DASHBOARD}/file`,
       course: `${ROOTS.DASHBOARD}/course`,
     },
+    company: {
+      root: `${ROOTS.DASHBOARD}/company`,
+      details: (id: string) => `${ROOTS.DASHBOARD}/company/${id}/edit`,
+    },
+    companyList: {
+      root: `${ROOTS.DASHBOARD}/company-list`,
+      new: `${ROOTS.DASHBOARD}/company-list/new`,
+      list: `${ROOTS.DASHBOARD}/company-list/list`,
+      profile: `${ROOTS.DASHBOARD}/company-list/profile`,
+      account: `${ROOTS.DASHBOARD}/company-list/account`,
+      edit: (id: string) => `${ROOTS.DASHBOARD}/company-list/${id}/edit`,
+    },
     user: {
-      root: `${ROOTS.DASHBOARD}/user`,
+      root: `${ROOTS.DASHBOARD}/user/list`,
       new: `${ROOTS.DASHBOARD}/user/new`,
       list: `${ROOTS.DASHBOARD}/user/list`,
       cards: `${ROOTS.DASHBOARD}/user/cards`,
@@ -83,6 +95,12 @@ export const paths = {
       demo: {
         edit: `${ROOTS.DASHBOARD}/user/${MOCK_ID}/edit`,
       },
+    },
+    membership: {
+      root: `${ROOTS.DASHBOARD}/memberships`,
+      new: `${ROOTS.DASHBOARD}/memberships/new`,
+      edit: (id: string) => `${ROOTS.DASHBOARD}/memberships/${id}/edit`,
+      details: (id: string) => `${ROOTS.DASHBOARD}/memberships/${id}`,
     },
     product: {
       root: `${ROOTS.DASHBOARD}/product`,

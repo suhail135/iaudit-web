@@ -1,19 +1,15 @@
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import { useTheme } from '@mui/material/styles';
 import Grid from '@mui/material/Unstable_Grid2';
 
 import { DashboardContent } from 'src/layouts/dashboard';
-import { SeoIllustration } from 'src/assets/illustrations';
-import { _appAuthors, _appRelated, _appFeatured, _appInvoices, _appInstalled } from 'src/_mock';
+import { _appAuthors, _appRelated, _appInvoices, _appInstalled } from 'src/_mock';
 
 import { svgColorClasses } from 'src/components/svg-color';
 
 import { useMockedUser } from 'src/auth/hooks';
 
 import { AppWidget } from '../app-widget';
-import { AppWelcome } from '../app-welcome';
-import { AppFeatured } from '../app-featured';
 import { AppNewInvoice } from '../app-new-invoice';
 import { AppTopAuthors } from '../app-top-authors';
 import { AppTopRelated } from '../app-top-related';
@@ -32,26 +28,9 @@ export function OverviewAppView() {
   return (
     <DashboardContent maxWidth="xl">
       <Grid container spacing={3}>
-        <Grid xs={12} md={8}>
-          <AppWelcome
-            title={`Welcome back 👋 \n ${user?.displayName}`}
-            description="If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything."
-            img={<SeoIllustration hideBackground />}
-            action={
-              <Button variant="contained" color="primary">
-                Go now
-              </Button>
-            }
-          />
-        </Grid>
-
-        <Grid xs={12} md={4}>
-          <AppFeatured list={_appFeatured} />
-        </Grid>
-
         <Grid xs={12} md={4}>
           <AppWidgetSummary
-            title="Total active users"
+            title="Total Auditors"
             percent={2.6}
             total={18765}
             chart={{
@@ -63,7 +42,7 @@ export function OverviewAppView() {
 
         <Grid xs={12} md={4}>
           <AppWidgetSummary
-            title="Total installed"
+            title="Total Audits Completed"
             percent={0.2}
             total={4876}
             chart={{
@@ -76,7 +55,7 @@ export function OverviewAppView() {
 
         <Grid xs={12} md={4}>
           <AppWidgetSummary
-            title="Total downloads"
+            title="Total Sites"
             percent={-0.1}
             total={678}
             chart={{
@@ -89,14 +68,13 @@ export function OverviewAppView() {
 
         <Grid xs={12} md={6} lg={4}>
           <AppCurrentDownload
-            title="Current download"
-            subheader="Downloaded by operating system"
+            title="Audit Status"
+            subheader="Audit progress this month"
             chart={{
               series: [
-                { label: 'Mac', value: 12244 },
-                { label: 'Window', value: 53345 },
-                { label: 'iOS', value: 44313 },
-                { label: 'Android', value: 78343 },
+                { label: 'Completed', value: 12244 },
+                { label: 'On Going', value: 44313 },
+                { label: 'Yet to start', value: 78343 },
               ],
             }}
           />
@@ -104,8 +82,8 @@ export function OverviewAppView() {
 
         <Grid xs={12} md={6} lg={8}>
           <AppAreaInstalled
-            title="Area installed"
-            subheader="(+43%) than last year"
+            title="Audits Completed"
+            subheader="Based on monthly audit completion"
             chart={{
               categories: [
                 'Jan',
@@ -125,78 +103,30 @@ export function OverviewAppView() {
                 {
                   name: '2022',
                   data: [
-                    { name: 'Asia', data: [12, 10, 18, 22, 20, 12, 8, 21, 20, 14, 15, 16] },
-                    { name: 'Europe', data: [12, 10, 18, 22, 20, 12, 8, 21, 20, 14, 15, 16] },
-                    { name: 'Americas', data: [12, 10, 18, 22, 20, 12, 8, 21, 20, 14, 15, 16] },
+                    { name: 'Completed', data: [12, 10, 18, 22, 20, 12, 8, 21, 20, 14, 15, 16] },
+                    { name: 'In Progress', data: [12, 10, 18, 22, 20, 12, 8, 21, 20, 14, 15, 16] },
+                    { name: 'Yet to start', data: [12, 10, 18, 22, 20, 12, 8, 21, 20, 14, 15, 16] },
                   ],
                 },
                 {
                   name: '2023',
                   data: [
-                    { name: 'Asia', data: [6, 18, 14, 9, 20, 6, 22, 19, 8, 22, 8, 17] },
-                    { name: 'Europe', data: [6, 18, 14, 9, 20, 6, 22, 19, 8, 22, 8, 17] },
-                    { name: 'Americas', data: [6, 18, 14, 9, 20, 6, 22, 19, 8, 22, 8, 17] },
+                    { name: 'Completed', data: [6, 18, 14, 9, 20, 6, 22, 19, 8, 22, 8, 17] },
+                    { name: 'In Progress', data: [6, 18, 14, 9, 20, 6, 22, 19, 8, 22, 8, 17] },
+                    { name: 'Yet to start', data: [6, 18, 14, 9, 20, 6, 22, 19, 8, 22, 8, 17] },
                   ],
                 },
                 {
                   name: '2024',
                   data: [
-                    { name: 'Asia', data: [6, 20, 15, 18, 7, 24, 6, 10, 12, 17, 18, 10] },
-                    { name: 'Europe', data: [6, 20, 15, 18, 7, 24, 6, 10, 12, 17, 18, 10] },
-                    { name: 'Americas', data: [6, 20, 15, 18, 7, 24, 6, 10, 12, 17, 18, 10] },
+                    { name: 'Completed', data: [6, 20, 15, 18, 7, 24, 6, 10, 12, 17, 18, 10] },
+                    { name: 'In Progress', data: [6, 20, 15, 18, 7, 24, 6, 10, 12, 17, 18, 10] },
+                    { name: 'Yet to start', data: [6, 20, 15, 18, 7, 24, 6, 10, 12, 17, 18, 10] },
                   ],
                 },
               ],
             }}
           />
-        </Grid>
-
-        <Grid xs={12} lg={8}>
-          <AppNewInvoice
-            title="New invoice"
-            tableData={_appInvoices}
-            headLabel={[
-              { id: 'id', label: 'Invoice ID' },
-              { id: 'category', label: 'Category' },
-              { id: 'price', label: 'Price' },
-              { id: 'status', label: 'Status' },
-              { id: '' },
-            ]}
-          />
-        </Grid>
-
-        <Grid xs={12} md={6} lg={4}>
-          <AppTopRelated title="Related applications" list={_appRelated} />
-        </Grid>
-
-        <Grid xs={12} md={6} lg={4}>
-          <AppTopInstalledCountries title="Top installed countries" list={_appInstalled} />
-        </Grid>
-
-        <Grid xs={12} md={6} lg={4}>
-          <AppTopAuthors title="Top authors" list={_appAuthors} />
-        </Grid>
-
-        <Grid xs={12} md={6} lg={4}>
-          <Box sx={{ gap: 3, display: 'flex', flexDirection: 'column' }}>
-            <AppWidget
-              title="Conversion"
-              total={38566}
-              icon="solar:user-rounded-bold"
-              chart={{ series: 48 }}
-            />
-
-            <AppWidget
-              title="Applications"
-              total={55566}
-              icon="fluent:mail-24-filled"
-              chart={{
-                series: 75,
-                colors: [theme.vars.palette.info.light, theme.vars.palette.info.main],
-              }}
-              sx={{ bgcolor: 'info.dark', [`& .${svgColorClasses.root}`]: { color: 'info.light' } }}
-            />
-          </Box>
         </Grid>
       </Grid>
     </DashboardContent>

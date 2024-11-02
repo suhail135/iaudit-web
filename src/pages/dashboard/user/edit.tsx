@@ -3,9 +3,9 @@ import { Helmet } from 'react-helmet-async';
 import { useParams } from 'src/routes/hooks';
 
 import { CONFIG } from 'src/config-global';
-import { _userList } from 'src/_mock/_user';
 
 import { UserEditView } from 'src/sections/user/view';
+import { useGetSingleUser } from 'src/sections/user/api/user';
 
 // ----------------------------------------------------------------------
 
@@ -14,7 +14,8 @@ const metadata = { title: `User edit | Dashboard - ${CONFIG.appName}` };
 export default function Page() {
   const { id = '' } = useParams();
 
-  const currentUser = _userList.find((user) => user.id === id);
+  // const currentUser: any = _userList.find((user) => user.id === id);
+  const { users, usersLoading } = useGetSingleUser(id);
 
   return (
     <>
@@ -22,7 +23,7 @@ export default function Page() {
         <title> {metadata.title}</title>
       </Helmet>
 
-      <UserEditView user={currentUser} />
+      {!usersLoading && <UserEditView user={users} />}
     </>
   );
 }

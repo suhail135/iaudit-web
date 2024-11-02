@@ -7,6 +7,7 @@ import packageJson from '../package.json';
 export type ConfigValue = {
   appName: string;
   appVersion: string;
+  s3Assets: string;
   serverUrl: string;
   assetsDir: string;
   auth: {
@@ -20,10 +21,11 @@ export type ConfigValue = {
 // ----------------------------------------------------------------------
 
 export const CONFIG: ConfigValue = {
-  appName: 'Minimal UI',
+  appName: 'IAudit',
   appVersion: packageJson.version,
   serverUrl: import.meta.env.VITE_SERVER_URL ?? '',
   assetsDir: import.meta.env.VITE_ASSETS_DIR ?? '',
+  s3Assets: 'https://iaudit.s3.ap-south-1.amazonaws.com/',
   /**
    * Auth
    * @method jwt | amplify | firebase | supabase | auth0

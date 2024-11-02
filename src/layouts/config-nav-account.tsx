@@ -1,10 +1,12 @@
 import SvgIcon from '@mui/material/SvgIcon';
 
+import { paths } from 'src/routes/paths';
+
 import { Iconify } from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
 
-export const _account = [
+export const ConfigNavAccount = (user: any) => [
   {
     label: 'Home',
     href: '/',
@@ -12,7 +14,7 @@ export const _account = [
   },
   {
     label: 'Profile',
-    href: '#',
+    href: paths.dashboard.company.details(user?.id),
     icon: (
       <SvgIcon>
         <path
@@ -28,13 +30,7 @@ export const _account = [
     ),
   },
   {
-    label: 'Projects',
-    href: '#',
-    icon: <Iconify icon="solar:notes-bold-duotone" />,
-    info: '3',
-  },
-  {
-    label: 'Subscription',
+    label: 'Subscriptions',
     href: '#',
     icon: (
       <SvgIcon>
@@ -57,7 +53,7 @@ export const _account = [
     ),
   },
   {
-    label: 'Security',
+    label: 'Templates',
     href: '#',
     icon: <Iconify icon="solar:shield-keyhole-bold-duotone" />,
   },
