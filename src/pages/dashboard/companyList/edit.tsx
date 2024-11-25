@@ -14,7 +14,7 @@ const metadata = { title: `User edit | Dashboard - ${CONFIG.appName}` };
 export default function Page() {
   const { id = '' } = useParams();
 
-  const currentUser = _userList.find((user) => user.id === id);
+  const currentUser: any = _userList.find((user) => user.id === id);
 
   return (
     <>

@@ -57,9 +57,6 @@ export const endpoints = {
     details: '/api/product/details',
     search: '/api/product/search',
   },
-  company: {
-    details: '/api/company/details',
-  },
   memberships: {
     list: '/membership',
     new: '/membership',
@@ -70,5 +67,23 @@ export const endpoints = {
     new: '/users',
     edit: (id: string) => `/users/${id}`,
     details: (id: string) => `/users/${id}`,
+  },
+  template: {
+    list: '/template',
+    new: '/template',
+    edit: (id: string) => `/template/${id}`,
+    details: (id: string) => `/template/${id}`,
+  },
+  company: {
+    list: '/company',
+    new: '/company',
+    edit: (id: string) => `/company/${id}`,
+    details: (id: string) => `/company/${id}`,
+  },
+  sites: {
+    list: '/site',
+    new: '/site',
+    edit: (id: string) => `/site/${id}`,
+    details: (id: string) => `/site/${id}`,
   },
 };

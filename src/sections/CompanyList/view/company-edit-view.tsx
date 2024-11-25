@@ -1,4 +1,4 @@
-import type { IUserItem } from 'src/types/user';
+import { useParams } from 'react-router';
 
 import { paths } from 'src/routes/paths';
 
@@ -6,15 +6,22 @@ import { DashboardContent } from 'src/layouts/dashboard';
 
 import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
 
+import { useGetSingleCompany } from '../api/companylist';
 import { CompanyNewEditForm } from '../company-new-edit-form';
+
+import type { ICompanyData } from '../api/type';
 
 // ----------------------------------------------------------------------
 
 type Props = {
-  user?: IUserItem;
+  user?: ICompanyData;
 };
 
 export function CompanyEditView({ user: currentUser }: Props) {
+  const { id } = useParams();
+
+  const { company, companyLoading } = useGetSingleCompany(id as string);
+
   return (
     <DashboardContent>
       <CustomBreadcrumbs
@@ -27,7 +34,7 @@ export function CompanyEditView({ user: currentUser }: Props) {
         sx={{ mb: { xs: 3, md: 5 } }}
       />
 
-      <CompanyNewEditForm currentUser={currentUser} />
+      {!companyLoading && <CompanyNewEditForm currentUser={company} />}
     </DashboardContent>
   );
 }

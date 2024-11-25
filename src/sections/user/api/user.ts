@@ -80,6 +80,7 @@ export async function createUser(membershipData: any) {
 
 export async function updateUser(id: string, membershipData: any) {
   const data = membershipData;
+
   const result = await axiosInstance.put(endpoints.users.edit(id), data);
 
   mutate(

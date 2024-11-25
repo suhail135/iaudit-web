@@ -67,6 +67,7 @@ export function DashboardLayout({ sx, children, header, data }: DashboardLayoutP
   const isNavVertical = isNavMini || settings.navLayout === 'vertical';
 
   const { user } = useAuthContext();
+  console.log(user);
 
   const navData =
     user?.roles?.name === 'ADMIN'

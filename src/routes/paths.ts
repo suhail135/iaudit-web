@@ -84,6 +84,27 @@ export const paths = {
       account: `${ROOTS.DASHBOARD}/company-list/account`,
       edit: (id: string) => `${ROOTS.DASHBOARD}/company-list/${id}/edit`,
     },
+    auditTemplate: {
+      root: `${ROOTS.DASHBOARD}/audit-template`,
+      new: `${ROOTS.DASHBOARD}/audit-template/new`,
+      list: `${ROOTS.DASHBOARD}/audit-template/list`,
+      details: (id: string) => `${ROOTS.DASHBOARD}/audit-template/${id}`,
+      edit: (id: string) => `${ROOTS.DASHBOARD}/audit-template/${id}/edit`,
+    },
+    sites: {
+      root: `${ROOTS.DASHBOARD}/sites`,
+      new: `${ROOTS.DASHBOARD}/sites/new`,
+      list: `${ROOTS.DASHBOARD}/sites/list`,
+      details: (id: string) => `${ROOTS.DASHBOARD}/sites/${id}`,
+      edit: (id: string) => `${ROOTS.DASHBOARD}/sites/${id}/edit`,
+    },
+    auditor: {
+      root: `${ROOTS.DASHBOARD}/auditor`,
+      new: `${ROOTS.DASHBOARD}/auditor/new`,
+      list: `${ROOTS.DASHBOARD}/auditor/list`,
+      details: (id: string) => `${ROOTS.DASHBOARD}/auditor/${id}`,
+      edit: (id: string) => `${ROOTS.DASHBOARD}/auditor/${id}/edit`,
+    },
     user: {
       root: `${ROOTS.DASHBOARD}/user/list`,
       new: `${ROOTS.DASHBOARD}/user/new`,

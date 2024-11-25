@@ -210,11 +210,11 @@ export function InvoiceListView() {
           action={
             <Button
               component={RouterLink}
-              href={paths.dashboard.invoice.new}
+              href={paths.dashboard.auditTemplate.new}
               variant="contained"
               startIcon={<Iconify icon="mingcute:add-line" />}
             >
-              New invoice
+              New Audit
             </Button>
           }
           sx={{ mb: { xs: 3, md: 5 } }}

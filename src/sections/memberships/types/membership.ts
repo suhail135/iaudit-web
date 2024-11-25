@@ -44,4 +44,5 @@ export type IMembershipItem = {
   no_days: number;
   createdAt: string;
   updatedAt: string;
+  is_active: boolean;
 };

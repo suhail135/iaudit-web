@@ -30,6 +30,7 @@ export const NewMembershipSchema = zod.object({
   audit_limit: zod.number().min(1, { message: 'Audit limit is required!' }),
   membership_type: zod.string().min(1, { message: 'Membership type is required!' }),
   no_days: zod.number().min(1, { message: 'No of days is required!' }),
+  is_active: zod.boolean(),
 });
 
 // ----------------------------------------------------------------------
@@ -49,6 +50,7 @@ export function MembershipNewEditForm({ currentMembership }: Props) {
       audit_limit: currentMembership?.audit_limit || 1,
       membership_type: currentMembership?.membership_type || '',
       no_days: currentMembership?.no_days || 1,
+      is_active: currentMembership?.is_active || true,
     }),
     [currentMembership]
   );
@@ -97,6 +99,7 @@ export function MembershipNewEditForm({ currentMembership }: Props) {
               <Field.Text type="number" name="audit_limit" label="Audit limit" />
               <Field.Text name="membership_type" label="Membership type" />
               <Field.Text type="number" name="no_days" label="No of days" />
+              <Field.Switch name="is_active" label="Is active" />
             </Box>
 
             <Stack alignItems="flex-end" sx={{ mt: 3 }}>

@@ -83,6 +83,24 @@ const MembershipListPage = lazy(() => import('src/pages/dashboard/membership/lis
 const MembershipDetailsPage = lazy(() => import('src/pages/dashboard/membership/details'));
 const MembershipEditPage = lazy(() => import('src/pages/dashboard/membership/edit'));
 const MembershipCreatePage = lazy(() => import('src/pages/dashboard/membership/new'));
+
+// Template
+const TemplateView = lazy(() => import('src/pages/dashboard/auditTemplate'));
+const TemplateListPage = lazy(() => import('src/pages/dashboard/auditTemplate/list'));
+const TemplateEditPage = lazy(() => import('src/pages/dashboard/auditTemplate/edit'));
+
+// Sites
+
+const SiteListPage = lazy(() => import('src/pages/dashboard/sites/list'));
+const SiteEditPage = lazy(() => import('src/pages/dashboard/sites/edit'));
+const SiteCreatePage = lazy(() => import('src/pages/dashboard/sites/new'));
+
+// Auditor
+
+const AuditorListPage = lazy(() => import('src/pages/dashboard/auditor/list'));
+const AuditorEditPage = lazy(() => import('src/pages/dashboard/auditor/edit'));
+const AuditorCreatePage = lazy(() => import('src/pages/dashboard/auditor/new'));
+
 // ----------------------------------------------------------------------
 
 const layoutContent = (
@@ -115,6 +133,59 @@ export const dashboardRoutes = [
           { path: 'new', element: <UserCreatePage /> },
           { path: ':id/edit', element: <UserEditPage /> },
           { path: 'account', element: <UserAccountPage /> },
+        ],
+      },
+      {
+        path: 'audit-template',
+        children: [
+          {
+            element: <TemplateListPage />,
+            index: true,
+          },
+          {
+            path: 'new',
+            element: <TemplateView />,
+          },
+          {
+            path: ':id/edit',
+            element: <TemplateEditPage />,
+          },
+        ],
+      },
+      {
+        path: 'sites',
+        children: [
+          { element: <SiteListPage />, index: true },
+          {
+            path: 'list',
+            element: <SiteListPage />,
+          },
+          {
+            path: 'new',
+            element: <SiteCreatePage />,
+          },
+          {
+            path: ':id/edit',
+            element: <SiteEditPage />,
+          },
+        ],
+      },
+      {
+        path: 'auditor',
+        children: [
+          { element: <AuditorListPage />, index: true },
+          {
+            path: 'list',
+            element: <AuditorListPage />,
+          },
+          {
+            path: 'new',
+            element: <AuditorCreatePage />,
+          },
+          {
+            path: ':id/edit',
+            element: <AuditorEditPage />,
+          },
         ],
       },
       {

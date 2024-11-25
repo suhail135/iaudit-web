@@ -1,342 +1,206 @@
-import type { IUserItem, IUserTableFilters } from 'src/types/user';
+import type { IJobItem, IJobFilters } from 'src/types/job';
 
 import { useState, useCallback } from 'react';
 
-import Box from '@mui/material/Box';
-import Tab from '@mui/material/Tab';
-import Tabs from '@mui/material/Tabs';
-import Card from '@mui/material/Card';
-import Table from '@mui/material/Table';
+import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import TableBody from '@mui/material/TableBody';
-import IconButton from '@mui/material/IconButton';
 
 import { paths } from 'src/routes/paths';
-import { useRouter } from 'src/routes/hooks';
 import { RouterLink } from 'src/routes/components';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 import { useSetState } from 'src/hooks/use-set-state';
 
-import { varAlpha } from 'src/theme/styles';
-import { _roles, _userList } from 'src/_mock';
+import { orderBy } from 'src/utils/helper';
+
 import { DashboardContent } from 'src/layouts/dashboard';
-
-import { Label } from 'src/components/label';
-import { toast } from 'src/components/snackbar';
-import { Iconify } from 'src/components/iconify';
-import { Scrollbar } from 'src/components/scrollbar';
-import { ConfirmDialog } from 'src/components/custom-dialog';
-import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
 import {
-  useTable,
-  emptyRows,
-  rowInPage,
-  TableNoData,
-  getComparator,
-  TableEmptyRows,
-  TableHeadCustom,
-  TableSelectedAction,
-  TablePaginationCustom,
-} from 'src/components/table';
+  _jobs,
+  _roles,
+  JOB_SORT_OPTIONS,
+  JOB_BENEFIT_OPTIONS,
+  JOB_EXPERIENCE_OPTIONS,
+  JOB_EMPLOYMENT_TYPE_OPTIONS,
+} from 'src/_mock';
 
-import { UserTableRow } from '../company-user-table-row';
-import { UserTableToolbar } from '../company-table-toolbar';
-import { UserTableFiltersResult } from '../company-table-filters-result';
+import { Iconify } from 'src/components/iconify';
+import { EmptyContent } from 'src/components/empty-content';
+import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
 
-// ----------------------------------------------------------------------
-const STATUS_OPTIONS = [{ value: 'all', label: 'All' }];
+import { JobList } from '../job-list';
+import { JobSort } from '../job-sort';
+import { JobSearch } from '../job-search';
+import { JobFilters } from '../job-filters';
+import { useGetCompanies } from '../api/companylist';
+import { JobFiltersResult } from '../job-filters-result';
 
-const TABLE_HEAD = [
-  { id: 'name', label: 'Name' },
-  { id: 'phoneNumber', label: 'Phone number', width: 180 },
-  { id: 'company', label: 'Company', width: 220 },
-  { id: 'role', label: 'Role', width: 180 },
-  { id: 'status', label: 'Status', width: 100 },
-  { id: '', width: 88 },
-];
+import type { ICompanyData } from '../api/type';
 
 // ----------------------------------------------------------------------
 
 export function CompanyListView() {
-  const table = useTable();
+  const openFilters = useBoolean();
 
-  const router = useRouter();
+  const [sortBy, setSortBy] = useState('latest');
 
-  const confirm = useBoolean();
+  const search = useSetState<{
+    query: string;
+    results: IJobItem[];
+  }>({ query: '', results: [] });
 
-  const [tableData, setTableData] = useState<IUserItem[]>(_userList);
-
-  const filters = useSetState<IUserTableFilters>({ name: '', role: [], status: 'all' });
-
-  const dataFiltered = applyFilter({
-    inputData: tableData,
-    comparator: getComparator(table.order, table.orderBy),
-    filters: filters.state,
+  const filters = useSetState<IJobFilters>({
+    roles: [],
+    locations: [],
+    benefits: [],
+    experience: 'all',
+    employmentTypes: [],
   });
 
-  const dataInPage = rowInPage(dataFiltered, table.page, table.rowsPerPage);
+  const { companies } = useGetCompanies();
+
+  // const dataFiltered = applyFilter({ inputData: companies, filters: filters.state, sortBy });
+  const dataFiltered: ICompanyData[] = companies;
 
   const canReset =
-    !!filters.state.name || filters.state.role.length > 0 || filters.state.status !== 'all';
+    filters.state.roles.length > 0 ||
+    filters.state.locations.length > 0 ||
+    filters.state.benefits.length > 0 ||
+    filters.state.employmentTypes.length > 0 ||
+    filters.state.experience !== 'all';
 
-  const notFound = (!dataFiltered.length && canReset) || !dataFiltered.length;
+  const notFound = !dataFiltered.length && canReset;
 
-  const handleDeleteRow = useCallback(
-    (id: string) => {
-      const deleteRow = tableData.filter((row) => row.id !== id);
+  const handleSortBy = useCallback((newValue: string) => {
+    setSortBy(newValue);
+  }, []);
 
-      toast.success('Delete success!');
+  const handleSearch = useCallback(
+    (inputValue: string) => {
+      search.setState({ query: inputValue });
 
-      setTableData(deleteRow);
+      if (inputValue) {
+        const results = _jobs.filter(
+          (job) => job.title.toLowerCase().indexOf(search.state.query.toLowerCase()) !== -1
+        );
 
-      table.onUpdatePageDeleteRow(dataInPage.length);
+        search.setState({ results });
+      }
     },
-    [dataInPage.length, table, tableData]
+    [search]
   );
 
-  const handleDeleteRows = useCallback(() => {
-    const deleteRows = tableData.filter((row) => !table.selected.includes(row.id));
+  const renderFilters = (
+    <Stack
+      spacing={3}
+      justifyContent="space-between"
+      alignItems={{ xs: 'flex-end', sm: 'center' }}
+      direction={{ xs: 'column', sm: 'row' }}
+    >
+      <JobSearch search={search} onSearch={handleSearch} />
 
-    toast.success('Delete success!');
-
-    setTableData(deleteRows);
-
-    table.onUpdatePageDeleteRows({
-      totalRowsInPage: dataInPage.length,
-      totalRowsFiltered: dataFiltered.length,
-    });
-  }, [dataFiltered.length, dataInPage.length, table, tableData]);
-
-  const handleEditRow = useCallback(
-    (id: string) => {
-      router.push(paths.dashboard.user.edit(id));
-    },
-    [router]
-  );
-
-  const handleFilterStatus = useCallback(
-    (event: React.SyntheticEvent, newValue: string) => {
-      table.onResetPage();
-      filters.setState({ status: newValue });
-    },
-    [filters, table]
-  );
-
-  return (
-    <>
-      <DashboardContent>
-        <CustomBreadcrumbs
-          heading="List"
-          links={[
-            { name: 'Dashboard', href: paths.dashboard.root },
-            { name: 'User', href: paths.dashboard.user.root },
-            { name: 'List' },
-          ]}
-          action={
-            <Button
-              component={RouterLink}
-              href={paths.dashboard.user.new}
-              variant="contained"
-              startIcon={<Iconify icon="mingcute:add-line" />}
-            >
-              New user
-            </Button>
-          }
-          sx={{ mb: { xs: 3, md: 5 } }}
+      <Stack direction="row" spacing={1} flexShrink={0}>
+        <JobFilters
+          filters={filters}
+          canReset={canReset}
+          open={openFilters.value}
+          onOpen={openFilters.onTrue}
+          onClose={openFilters.onFalse}
+          options={{
+            roles: _roles,
+            benefits: JOB_BENEFIT_OPTIONS.map((option) => option.label),
+            employmentTypes: JOB_EMPLOYMENT_TYPE_OPTIONS.map((option) => option.label),
+            experiences: ['all', ...JOB_EXPERIENCE_OPTIONS.map((option) => option.label)],
+          }}
         />
 
-        <Card>
-          <Tabs
-            value={filters.state.status}
-            onChange={handleFilterStatus}
-            sx={{
-              px: 2.5,
-              boxShadow: (theme) =>
-                `inset 0 -2px 0 0 ${varAlpha(theme.vars.palette.grey['500Channel'], 0.08)}`,
-            }}
-          >
-            {STATUS_OPTIONS.map((tab) => (
-              <Tab
-                key={tab.value}
-                iconPosition="end"
-                value={tab.value}
-                label={tab.label}
-                icon={
-                  <Label
-                    variant={
-                      ((tab.value === 'all' || tab.value === filters.state.status) && 'filled') ||
-                      'soft'
-                    }
-                    color={
-                      (tab.value === 'active' && 'success') ||
-                      (tab.value === 'pending' && 'warning') ||
-                      (tab.value === 'banned' && 'error') ||
-                      'default'
-                    }
-                  >
-                    {['active', 'pending', 'banned', 'rejected'].includes(tab.value)
-                      ? tableData.filter((user) => user.status === tab.value).length
-                      : tableData.length}
-                  </Label>
-                }
-              />
-            ))}
-          </Tabs>
+        <JobSort sort={sortBy} onSort={handleSortBy} sortOptions={JOB_SORT_OPTIONS} />
+      </Stack>
+    </Stack>
+  );
 
-          <UserTableToolbar
-            filters={filters}
-            onResetPage={table.onResetPage}
-            options={{ roles: _roles }}
-          />
+  const renderResults = <JobFiltersResult filters={filters} totalResults={dataFiltered.length} />;
 
-          {canReset && (
-            <UserTableFiltersResult
-              filters={filters}
-              totalResults={dataFiltered.length}
-              onResetPage={table.onResetPage}
-              sx={{ p: 2.5, pt: 0 }}
-            />
-          )}
-
-          <Box sx={{ position: 'relative' }}>
-            <TableSelectedAction
-              dense={table.dense}
-              numSelected={table.selected.length}
-              rowCount={dataFiltered.length}
-              onSelectAllRows={(checked) =>
-                table.onSelectAllRows(
-                  checked,
-                  dataFiltered.map((row) => row.id)
-                )
-              }
-              action={
-                <Tooltip title="Delete">
-                  <IconButton color="primary" onClick={confirm.onTrue}>
-                    <Iconify icon="solar:trash-bin-trash-bold" />
-                  </IconButton>
-                </Tooltip>
-              }
-            />
-
-            <Scrollbar>
-              <Table size={table.dense ? 'small' : 'medium'} sx={{ minWidth: 960 }}>
-                <TableHeadCustom
-                  order={table.order}
-                  orderBy={table.orderBy}
-                  headLabel={TABLE_HEAD}
-                  rowCount={dataFiltered.length}
-                  numSelected={table.selected.length}
-                  onSort={table.onSort}
-                  onSelectAllRows={(checked) =>
-                    table.onSelectAllRows(
-                      checked,
-                      dataFiltered.map((row) => row.id)
-                    )
-                  }
-                />
-
-                <TableBody>
-                  {dataFiltered
-                    .slice(
-                      table.page * table.rowsPerPage,
-                      table.page * table.rowsPerPage + table.rowsPerPage
-                    )
-                    .map((row) => (
-                      <UserTableRow
-                        key={row.id}
-                        row={row}
-                        selected={table.selected.includes(row.id)}
-                        onSelectRow={() => table.onSelectRow(row.id)}
-                        onDeleteRow={() => handleDeleteRow(row.id)}
-                        onEditRow={() => handleEditRow(row.id)}
-                      />
-                    ))}
-
-                  <TableEmptyRows
-                    height={table.dense ? 56 : 56 + 20}
-                    emptyRows={emptyRows(table.page, table.rowsPerPage, dataFiltered.length)}
-                  />
-
-                  <TableNoData notFound={notFound} />
-                </TableBody>
-              </Table>
-            </Scrollbar>
-          </Box>
-
-          <TablePaginationCustom
-            page={table.page}
-            dense={table.dense}
-            count={dataFiltered.length}
-            rowsPerPage={table.rowsPerPage}
-            onPageChange={table.onChangePage}
-            onChangeDense={table.onChangeDense}
-            onRowsPerPageChange={table.onChangeRowsPerPage}
-          />
-        </Card>
-      </DashboardContent>
-
-      <ConfirmDialog
-        open={confirm.value}
-        onClose={confirm.onFalse}
-        title="Delete"
-        content={
-          <>
-            Are you sure want to delete <strong> {table.selected.length} </strong> items?
-          </>
-        }
+  return (
+    <DashboardContent>
+      <CustomBreadcrumbs
+        heading="List"
+        links={[
+          { name: 'Dashboard', href: paths.dashboard.root },
+          { name: 'Companies List', href: paths.dashboard.companyList.list },
+          { name: 'List' },
+        ]}
         action={
           <Button
+            component={RouterLink}
+            href={paths.dashboard.companyList.new}
             variant="contained"
-            color="error"
-            onClick={() => {
-              handleDeleteRows();
-              confirm.onFalse();
-            }}
+            startIcon={<Iconify icon="mingcute:add-line" />}
           >
-            Delete
+            New Company
           </Button>
         }
+        sx={{ mb: { xs: 3, md: 5 } }}
       />
-    </>
+
+      <Stack spacing={2.5} sx={{ mb: { xs: 3, md: 5 } }}>
+        {renderFilters}
+
+        {canReset && renderResults}
+      </Stack>
+
+      {notFound && <EmptyContent filled sx={{ py: 10 }} />}
+
+      <JobList jobs={dataFiltered} />
+    </DashboardContent>
   );
 }
 
 // ----------------------------------------------------------------------
 
 type ApplyFilterProps = {
-  inputData: IUserItem[];
-  filters: IUserTableFilters;
-  comparator: (a: any, b: any) => number;
+  inputData: IJobItem[];
+  filters: IJobFilters;
+  sortBy: string;
 };
 
-function applyFilter({ inputData, comparator, filters }: ApplyFilterProps) {
-  const { name, status, role } = filters;
+const applyFilter = ({ inputData, filters, sortBy }: ApplyFilterProps) => {
+  const { employmentTypes, experience, roles, locations, benefits } = filters;
 
-  const stabilizedThis = inputData.map((el, index) => [el, index] as const);
+  // Sort by
+  if (sortBy === 'latest') {
+    inputData = orderBy(inputData, ['createdAt'], ['desc']);
+  }
 
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
+  if (sortBy === 'oldest') {
+    inputData = orderBy(inputData, ['createdAt'], ['asc']);
+  }
 
-  inputData = stabilizedThis.map((el) => el[0]);
+  if (sortBy === 'popular') {
+    inputData = orderBy(inputData, ['totalViews'], ['desc']);
+  }
 
-  if (name) {
-    inputData = inputData.filter(
-      (user) => user.name.toLowerCase().indexOf(name.toLowerCase()) !== -1
+  // Filters
+  if (employmentTypes.length) {
+    inputData = inputData.filter((job) =>
+      job.employmentTypes.some((item) => employmentTypes.includes(item))
     );
   }
 
-  if (status !== 'all') {
-    inputData = inputData.filter((user) => user.status === status);
+  if (experience !== 'all') {
+    inputData = inputData.filter((job) => job.experience === experience);
   }
 
-  if (role.length) {
-    inputData = inputData.filter((user) => role.includes(user.role));
+  if (roles.length) {
+    inputData = inputData.filter((job) => roles.includes(job.role));
+  }
+
+  if (locations.length) {
+    inputData = inputData.filter((job) => job.locations.some((item) => locations.includes(item)));
+  }
+
+  if (benefits.length) {
+    inputData = inputData.filter((job) => job.benefits.some((item) => benefits.includes(item)));
   }
 
   return inputData;
-}
+};
