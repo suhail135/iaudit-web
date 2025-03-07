@@ -3,15 +3,9 @@
 import { useMemo } from 'react';
 import useSWR, { mutate } from 'swr';
 
-import axiosInstance, { fetcher, endpoints } from 'src/utils/axios';
+import axiosInstance, { fetcher, endpoints, swrOptions } from 'src/utils/axios';
 
 import type { IUser } from '../type/users';
-
-const swrOptions = {
-  revalidateIfStale: false,
-  revalidateOnFocus: false,
-  revalidateOnReconnect: false,
-};
 
 type UserData = {
   data: IUser[];

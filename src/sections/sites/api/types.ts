@@ -5,6 +5,17 @@ export interface ISiteData {
   companyId: string;
   updatedAt: string;
   createdAt: string;
+  companies: {
+    id: string;
+    name: string;
+    description: string;
+    userId: string;
+    address: string;
+    contact: string;
+    logo_url: string;
+    createdAt: string;
+    updatedAt: string;
+  };
 }
 
 export interface ISiteResponse {

@@ -5,26 +5,18 @@ import { useRef, useState } from 'react';
 import { m, useScroll, useSpring, useTransform, useMotionValueEvent } from 'framer-motion';
 
 import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import AvatarGroup from '@mui/material/AvatarGroup';
-import Avatar, { avatarClasses } from '@mui/material/Avatar';
 
 import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
 
 import { useResponsive } from 'src/hooks/use-responsive';
 
-import { _mock } from 'src/_mock';
-import { CONFIG } from 'src/config-global';
-import { textGradient } from 'src/theme/styles';
-
 import { Iconify } from 'src/components/iconify';
-import { SvgColor } from 'src/components/svg-color';
 import { varFade, MotionContainer } from 'src/components/animate';
 
 import { HeroBackground } from './components/hero-background';
@@ -73,27 +65,7 @@ export function HomeHero({ sx, ...other }: BoxProps) {
         }}
       >
         <Box component="span" sx={{ width: 1, opacity: 0.24 }}>
-          Boost your building
-        </Box>
-        process with
-        <Box
-          component={m.span}
-          animate={{ backgroundPosition: '200% center' }}
-          transition={{
-            duration: 20,
-            ease: 'linear',
-            repeat: Infinity,
-            repeatType: 'reverse',
-          }}
-          sx={{
-            ...textGradient(
-              `300deg, ${theme.vars.palette.primary.main} 0%, ${theme.vars.palette.warning.main} 25%, ${theme.vars.palette.primary.main} 50%, ${theme.vars.palette.warning.main} 75%, ${theme.vars.palette.primary.main} 100%`
-            ),
-            backgroundSize: '400%',
-            ml: { xs: 0.75, md: 1, xl: 1.5 },
-          }}
-        >
-          Minimal
+          Coming soon
         </Box>
       </Box>
     </AnimatedDiv>
@@ -109,32 +81,11 @@ export function HomeHero({ sx, ...other }: BoxProps) {
           [theme.breakpoints.up(lgKey)]: { fontSize: 20, lineHeight: '36px' },
         }}
       >
-        {`The starting point for your next project is based on MUI. \nEasy customization helps you build apps faster and better.`}
+        {/* Coming soon, sub description */}
+        {`We are working hard to bring you a new version of our product.
+          Stay tuned for something amazing.
+          We will be back soon. `}
       </Typography>
-    </AnimatedDiv>
-  );
-
-  const renderRatings = (
-    <AnimatedDiv>
-      <Box
-        gap={1.5}
-        display="flex"
-        flexWrap="wrap"
-        alignItems="center"
-        justifyContent="center"
-        sx={{ typography: 'subtitle2' }}
-      >
-        <AvatarGroup sx={{ [`& .${avatarClasses.root}`]: { width: 32, height: 32 } }}>
-          {[...Array(3)].map((_, index) => (
-            <Avatar
-              key={_mock.fullName(index + 1)}
-              alt={_mock.fullName(index + 1)}
-              src={_mock.image.avatar(index + 1)}
-            />
-          ))}
-        </AvatarGroup>
-        160+ Happy customers
-      </Box>
     </AnimatedDiv>
   );
 
@@ -162,71 +113,13 @@ export function HomeHero({ sx, ...other }: BoxProps) {
                   fontWeight: theme.typography.fontWeightMedium,
                 }}
               >
-                v{CONFIG.appVersion}
+                v0.0.1
               </Box>
             </span>
           </Button>
-
-          <Link
-            color="inherit"
-            variant="body2"
-            target="_blank"
-            rel="noopener"
-            href={paths.freeUI}
-            underline="always"
-            sx={{ gap: 0.5, alignItems: 'center', display: 'inline-flex' }}
-          >
-            Get free version
-            <Iconify width={16} icon="eva:external-link-fill" />
-          </Link>
         </Stack>
       </AnimatedDiv>
-
-      <AnimatedDiv>
-        <Button
-          color="inherit"
-          size="large"
-          variant="outlined"
-          target="_blank"
-          rel="noopener"
-          href={paths.figmaUrl}
-          startIcon={<Iconify width={24} icon="solar:figma-outline" />}
-          sx={{ borderColor: 'text.primary' }}
-        >
-          Figma preview
-        </Button>
-      </AnimatedDiv>
     </Box>
-  );
-
-  const renderIcons = (
-    <Stack spacing={3} sx={{ textAlign: 'center' }}>
-      <AnimatedDiv>
-        <Typography variant="overline" sx={{ opacity: 0.4 }}>
-          Available For
-        </Typography>
-      </AnimatedDiv>
-
-      <Stack spacing={2.5} direction="row">
-        {['js', 'ts', 'nextjs', 'vite', 'figma'].map((platform) => (
-          <AnimatedDiv key={platform}>
-            {platform === 'nextjs' ? (
-              <SvgColor
-                src={`${CONFIG.assetsDir}/assets/icons/platforms/ic-${platform}.svg`}
-                sx={{ width: 24, height: 24 }}
-              />
-            ) : (
-              <Box
-                component="img"
-                alt={platform}
-                src={`${CONFIG.assetsDir}/assets/icons/platforms/ic-${platform}.svg`}
-                sx={{ width: 24, height: 24 }}
-              />
-            )}
-          </AnimatedDiv>
-        ))}
-      </Stack>
-    </Stack>
   );
 
   return (
@@ -279,10 +172,8 @@ export function HomeHero({ sx, ...other }: BoxProps) {
           <Stack spacing={3} sx={{ textAlign: 'center' }}>
             <m.div style={{ y: y1 }}>{renderHeading}</m.div>
             <m.div style={{ y: y2 }}>{renderText}</m.div>
+            <m.div style={{ y: y4 }}>{renderButtons}</m.div>
           </Stack>
-          <m.div style={{ y: y3 }}>{renderRatings}</m.div>
-          <m.div style={{ y: y4 }}>{renderButtons}</m.div>
-          <m.div style={{ y: y5 }}>{renderIcons}</m.div>
         </Container>
 
         <HeroBackground />

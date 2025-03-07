@@ -4,19 +4,13 @@ import type { IKanban, IKanbanTask, IKanbanColumn } from 'src/types/kanban';
 import { useMemo } from 'react';
 import useSWR, { mutate } from 'swr';
 
-import axios, { fetcher, endpoints } from 'src/utils/axios';
+import axios, { fetcher, endpoints, swrOptions } from 'src/utils/axios';
 
 // ----------------------------------------------------------------------
 
 const enableServer = false;
 
 const KANBAN_ENDPOINT = endpoints.kanban;
-
-const swrOptions = {
-  revalidateIfStale: enableServer,
-  revalidateOnFocus: enableServer,
-  revalidateOnReconnect: enableServer,
-};
 
 // ----------------------------------------------------------------------
 

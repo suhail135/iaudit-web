@@ -22,7 +22,7 @@ import { Logo } from 'src/components/logo';
 
 const LINKS = [
   {
-    headline: 'Minimal',
+    headline: 'IAduit',
     children: [
       { name: 'About us', href: paths.about },
       { name: 'Contact us', href: paths.contact },
@@ -36,7 +36,7 @@ const LINKS = [
       { name: 'Privacy policy', href: '#' },
     ],
   },
-  { headline: 'Contact', children: [{ name: 'support@minimals.cc', href: '#' }] },
+  { headline: 'Contact', children: [{ name: 'support@IAduit', href: '#' }] },
 ];
 
 // ----------------------------------------------------------------------
@@ -79,10 +79,7 @@ export function Footer({ layoutQuery, sx }: FooterProps) {
                 maxWidth: 280,
                 [theme.breakpoints.up(layoutQuery)]: { mx: 'unset' },
               }}
-            >
-              The starting point for your next project with Minimal UI Kit, built on the newest
-              version of Material-UI ©, ready to be customized to your style.
-            </Typography>
+            />
 
             <Stack
               direction="row"
@@ -174,7 +171,7 @@ export function HomeFooter({ sx }: HomeFooterProps) {
         <Box sx={{ mt: 1, typography: 'caption' }}>
           © All rights reserved.
           <br /> made by
-          <Link href="https://minimals.cc/"> minimals.cc </Link>
+          <Link href="https://IAduit/"> IAduit </Link>
         </Box>
       </Container>
     </Box>

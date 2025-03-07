@@ -5,13 +5,7 @@ import type { IProductItem } from 'src/types/product';
 import useSWR from 'swr';
 import { useMemo } from 'react';
 
-import { fetcher, endpoints } from 'src/utils/axios';
-
-const swrOptions = {
-  revalidateIfStale: false,
-  revalidateOnFocus: false,
-  revalidateOnReconnect: false,
-};
+import { fetcher, endpoints, swrOptions } from 'src/utils/axios';
 
 type ProductsData = {
   products: IProductItem[];

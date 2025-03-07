@@ -8,8 +8,8 @@ import { DashboardContent } from 'src/layouts/dashboard';
 
 import { CustomBreadcrumbs } from 'src/components/custom-breadcrumbs';
 
-import { useGetSingleSite } from '../api/auditor';
-import { ProductNewEditForm } from '../sites-new-edit-form';
+import { useGetSingleAuditor } from '../api/auditor';
+import { AuditorNewEditForm } from '../sites-new-edit-form';
 
 // ----------------------------------------------------------------------
 
@@ -20,7 +20,7 @@ type Props = {
 export function AuditorEditView({ product }: Props) {
   const { id } = useParams();
 
-  const { site, siteLoading } = useGetSingleSite(id as string);
+  const { site, siteLoading } = useGetSingleAuditor(id as string);
 
   return (
     <DashboardContent>
@@ -33,7 +33,7 @@ export function AuditorEditView({ product }: Props) {
         ]}
         sx={{ mb: { xs: 3, md: 5 } }}
       />
-      {!siteLoading && <ProductNewEditForm currentProduct={site} />}
+      {!siteLoading && <AuditorNewEditForm currentUser={site as any} />}
     </DashboardContent>
   );
 }

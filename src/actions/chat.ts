@@ -4,19 +4,13 @@ import { useMemo } from 'react';
 import useSWR, { mutate } from 'swr';
 
 import { keyBy } from 'src/utils/helper';
-import axios, { fetcher, endpoints } from 'src/utils/axios';
+import axios, { fetcher, endpoints, swrOptions } from 'src/utils/axios';
 
 // ----------------------------------------------------------------------
 
 const enableServer = false;
 
 const CHART_ENDPOINT = endpoints.chat;
-
-const swrOptions = {
-  revalidateIfStale: enableServer,
-  revalidateOnFocus: enableServer,
-  revalidateOnReconnect: enableServer,
-};
 
 // ----------------------------------------------------------------------
 

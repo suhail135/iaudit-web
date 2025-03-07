@@ -30,7 +30,7 @@ export function Gradient() {
             ),
           }}
         >
-          Minimals UI
+          IAduit U
         </Box>
       </ComponentBlock>
 

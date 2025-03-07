@@ -3,15 +3,10 @@
 import useSWR from 'swr';
 import { useMemo } from 'react';
 
-import axiosInstance, { fetcher, endpoints } from 'src/utils/axios';
+import axiosInstance, { fetcher, endpoints, swrOptions } from 'src/utils/axios';
 
 // import type { IUser } from '../type/users';
 
-const swrOptions = {
-  revalidateIfStale: false,
-  revalidateOnFocus: false,
-  revalidateOnReconnect: false,
-};
 //  "success": true,
 //   "message": "template Found",
 //   "data":
@@ -52,20 +47,6 @@ type AuditTemplateData = {
 export async function createTemplate(membershipData: any) {
   const data = membershipData;
   const result = await axiosInstance.post(endpoints.template.new, data);
-
-  // mutate(
-  //   `${endpoints.users.list}`,
-  //   (currentData) => {
-  //     console.log('currentDataSSSSS', currentData, result.data.data);
-
-  //     const currentEvents: UserData[] = currentData?.data;
-
-  //     const newData = [...currentEvents, result.data.data];
-
-  //     return { ...currentData, data: newData };
-  //   },
-  //   false
-  // );
 }
 
 export async function updateTemplate(membershipData: any) {

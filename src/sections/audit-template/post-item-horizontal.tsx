@@ -4,10 +4,10 @@ import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
-import { IconButton } from '@mui/material';
 import MenuList from '@mui/material/MenuList';
 import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
+import { Button, IconButton } from '@mui/material';
 
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
@@ -77,6 +77,14 @@ export function PostItemHorizontal({ post, sx, ...other }: Props) {
               <Iconify icon="eva:more-horizontal-fill" />
             </IconButton>
           </Box>
+          <Button
+            onClick={() => {
+              router.push(`${paths.dashboard.audit.new}?template=${post.id}`);
+            }}
+          >
+            Create Audit from Template
+            <Iconify icon="eva:arrow-right-fill" />
+          </Button>
         </Stack>
 
         <Box

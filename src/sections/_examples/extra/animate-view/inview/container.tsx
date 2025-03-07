@@ -13,7 +13,7 @@ import { getVariant } from '../get-variant';
 
 // ----------------------------------------------------------------------
 
-const TEXT = 'Minimals';
+const TEXT = 'IAduit';
 
 const IMG = [
   _mock.image.cover(2),

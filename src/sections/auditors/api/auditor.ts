@@ -1,25 +1,29 @@
+import type { IUser } from 'src/sections/user/type/users';
+
 import useSWR from 'swr';
 import { useMemo } from 'react';
 
-import axiosInstance, { fetcher, endpoints } from 'src/utils/axios';
+import axiosInstance, { fetcher, endpoints, swrOptions } from 'src/utils/axios';
 
-import type { ISiteResponse, ISiteSingleResponse } from './types';
+import type { ISiteSingleResponse } from './types';
 
-const swrOptions = {
-  revalidateIfStale: false,
-  revalidateOnFocus: false,
-  revalidateOnReconnect: false,
+type UserData = {
+  data: IUser[];
 };
 
-export function useGetSites() {
-  const url = endpoints.sites.list;
+type UserDataSingle = {
+  data: IUser;
+};
 
-  const { data, isLoading, error, isValidating } = useSWR<ISiteResponse>(url, fetcher, swrOptions);
+export function useGetAuditors() {
+  const url = endpoints.auditors.list;
+
+  const { data, isLoading, error, isValidating } = useSWR<UserData>(url, fetcher, swrOptions);
 
   const memoizedValue = useMemo(
     () => ({
-      sites: data?.data || [],
-      sitesLoading: isLoading,
+      users: data?.data || [],
+      usersLoading: isLoading,
       sitesError: error,
       sitesValidating: isValidating,
       sitesEmpty: !isLoading && !data?.data?.length,
@@ -32,8 +36,8 @@ export function useGetSites() {
 
 // use single site
 
-export function useGetSingleSite(id: string) {
-  const url = endpoints.sites.details(id);
+export function useGetSingleAuditor(id: string) {
+  const url = endpoints.auditors.details(id);
 
   const { data, isLoading, error, isValidating } = useSWR<ISiteSingleResponse>(
     url,
@@ -57,16 +61,16 @@ export function useGetSingleSite(id: string) {
 
 // create site
 
-export async function createSite(siteData: any) {
+export async function createAuditor(siteData: any) {
   const data = siteData;
-  const result = await axiosInstance.post(endpoints.sites.new, data);
+  const result = await axiosInstance.post(endpoints.auditors.new, data);
   return result.data;
 }
 
 // update site
 
-export async function updateSite(siteData: any, id: string) {
+export async function updateAuditor(id: string, siteData: any) {
   const data = siteData;
-  const result = await axiosInstance.put(endpoints.sites.edit(id), data);
+  const result = await axiosInstance.put(endpoints.auditors.edit(id), data);
   return result.data;
 }

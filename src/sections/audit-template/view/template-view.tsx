@@ -53,7 +53,7 @@ export function TemplateView({ currentAuditTemplate }: Props) {
       id: currentAuditTemplate?.id || '',
       name: currentAuditTemplate?.name || '',
       description: currentAuditTemplate?.description || '',
-      is_audit: true,
+      is_audit: false,
       sections: currentAuditTemplate?.sections || [],
     }),
     [currentAuditTemplate]

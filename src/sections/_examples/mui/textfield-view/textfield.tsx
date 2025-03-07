@@ -79,7 +79,7 @@ export function Textfields({ variant }: Props) {
           required
           fullWidth
           label="Activated"
-          defaultValue="Hello Minimal"
+          defaultValue="Hello IAduit"
         />
 
         <TextField
@@ -95,7 +95,7 @@ export function Textfields({ variant }: Props) {
           disabled
           fullWidth
           label="Disabled"
-          defaultValue="Hello Minimal"
+          defaultValue="Hello IAduit"
         />
       </ComponentBlock>
 
@@ -118,7 +118,7 @@ export function Textfields({ variant }: Props) {
           disabled
           fullWidth
           label="Disabled"
-          defaultValue="Hello Minimal"
+          defaultValue="Hello IAduit"
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -181,7 +181,7 @@ export function Textfields({ variant }: Props) {
           variant={variant}
           fullWidth
           label="Error"
-          defaultValue="Hello Minimal"
+          defaultValue="Hello IAduit"
           helperText="Incorrect entry."
         />
 
@@ -190,7 +190,7 @@ export function Textfields({ variant }: Props) {
           error
           fullWidth
           label="Error"
-          defaultValue="Hello Minimal"
+          defaultValue="Hello IAduit"
           helperText="Incorrect entry."
         />
       </ComponentBlock>

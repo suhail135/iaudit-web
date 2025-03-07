@@ -16,6 +16,8 @@ export type ConfigValue = {
     redirectPath: string;
   };
   mapboxApiKey: string;
+  AUDIT_USER: string;
+  COMPANY_ADMIN: string;
 };
 
 // ----------------------------------------------------------------------
@@ -39,4 +41,6 @@ export const CONFIG: ConfigValue = {
    * Mapbox
    */
   mapboxApiKey: import.meta.env.VITE_MAPBOX_API_KEY ?? '',
+  AUDIT_USER: '77f1588a-06f3-4447-b00a-fbe56e76fa4a',
+  COMPANY_ADMIN: 'bfd329f4-fe7f-4031-8f04-da70b900e800',
 };

@@ -86,4 +86,29 @@ export const endpoints = {
     edit: (id: string) => `/site/${id}`,
     details: (id: string) => `/site/${id}`,
   },
+  auditors: {
+    list: '/auditor',
+    new: '/auditor',
+    edit: (id: string) => `/auditor/${id}`,
+    details: (id: string) => `/auditor/${id}`,
+  },
+  audits: {
+    list: '/audit',
+    auditorAudits: '/audit/AuditsForAuditor',
+    new: '/audit',
+    edit: (id: string) => `/audit/${id}`,
+    details: (id: string) => `/audit/${id}`,
+  },
+  answer: {
+    list: '/answer',
+    new: '/answer',
+    edit: (id: string) => `/answer/${id}`,
+    details: (id: string) => `/answer/${id}`,
+  },
+};
+
+export const swrOptions = {
+  revalidateIfStale: true,
+  revalidateOnFocus: true,
+  revalidateOnReconnect: true,
 };

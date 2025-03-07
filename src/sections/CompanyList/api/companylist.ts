@@ -3,15 +3,9 @@
 import useSWR from 'swr';
 import { useMemo } from 'react';
 
-import axiosInstance, { fetcher, endpoints } from 'src/utils/axios';
+import axiosInstance, { fetcher, endpoints, swrOptions } from 'src/utils/axios';
 
 import type { CompanyResponse, ICompanySingleResponse } from './type';
-
-const swrOptions = {
-  revalidateIfStale: false,
-  revalidateOnFocus: false,
-  revalidateOnReconnect: false,
-};
 
 export function useGetCompanies() {
   const url = endpoints.company.list;

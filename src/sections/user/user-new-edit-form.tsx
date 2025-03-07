@@ -129,7 +129,7 @@ export function UserNewEditForm({ currentUser }: Props) {
           delete data.logo;
           await updateUser(currentUser.id, {
             ...data,
-            roleId: 'bfd329f4-fe7f-4031-8f04-da70b900e800',
+            roleId: CONFIG.COMPANY_ADMIN,
             id: currentUser.id,
           });
         } else {
@@ -138,7 +138,7 @@ export function UserNewEditForm({ currentUser }: Props) {
               await updateUser(currentUser.id, {
                 ...data,
                 id: currentUser.id,
-                roleId: 'bfd329f4-fe7f-4031-8f04-da70b900e800',
+                roleId: CONFIG.COMPANY_ADMIN,
                 logo: (Object.values(fileDetails)[0] as { fields: { key: string } }).fields.key,
               });
             }
@@ -151,7 +151,7 @@ export function UserNewEditForm({ currentUser }: Props) {
           if (fileDetails && Object.values(fileDetails)[0]) {
             await createUser({
               ...data,
-              roleId: 'bfd329f4-fe7f-4031-8f04-da70b900e800',
+              roleId: CONFIG.COMPANY_ADMIN,
               logo: (Object.values(fileDetails)[0] as { fields: { key: string } }).fields.key,
             });
             toast.success('Create success!');

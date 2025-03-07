@@ -1,15 +1,9 @@
 import useSWR from 'swr';
 import { useMemo } from 'react';
 
-import axiosInstance, { fetcher, endpoints } from 'src/utils/axios';
+import axiosInstance, { fetcher, endpoints, swrOptions } from 'src/utils/axios';
 
 import type { ISiteResponse, ISiteSingleResponse } from './types';
-
-const swrOptions = {
-  revalidateIfStale: false,
-  revalidateOnFocus: false,
-  revalidateOnReconnect: false,
-};
 
 export function useGetSites() {
   const url = endpoints.sites.list;

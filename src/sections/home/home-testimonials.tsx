@@ -238,13 +238,13 @@ const TESTIMONIALS = [
   {
     ...base(3),
     category: 'Code Quality',
-    content: `Clean & Complete (Design & Code). Thansk Minimal team :)`,
+    content: `Clean & Complete (Design & Code). Thansk IAduit team :)`,
     postedAt: 'April 19, 2023 23:15:30',
   },
   {
     ...base(4),
     category: 'Customer Support',
-    content: `Thanks to Minimal for customer support with email. I solved the problem. And the code quality is good, too.`,
+    content: `Thanks to IAduit for customer support with email. I solved the problem. And the code quality is good, too.`,
     postedAt: 'May 19, 2023 23:15:30',
   },
   {

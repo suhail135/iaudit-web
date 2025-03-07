@@ -3,19 +3,13 @@ import type { ICalendarEvent } from 'src/types/calendar';
 import { useMemo } from 'react';
 import useSWR, { mutate } from 'swr';
 
-import axios, { fetcher, endpoints } from 'src/utils/axios';
+import axios, { fetcher, endpoints, swrOptions } from 'src/utils/axios';
 
 // ----------------------------------------------------------------------
 
 const enableServer = false;
 
 const CALENDAR_ENDPOINT = endpoints.calendar;
-
-const swrOptions = {
-  revalidateIfStale: enableServer,
-  revalidateOnFocus: enableServer,
-  revalidateOnReconnect: enableServer,
-};
 
 // ----------------------------------------------------------------------
 

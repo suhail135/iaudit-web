@@ -19,7 +19,7 @@ import { CircleSvg, FloatLine, FloatPlusIcon } from './components/svg-elements';
 
 // ----------------------------------------------------------------------
 
-export function HomeMinimal({ sx, ...other }: BoxProps) {
+export function HomeIAduit({ sx, ...other }: BoxProps) {
   const renderLines = (
     <>
       <FloatPlusIcon sx={{ top: 72, left: 72 }} />
@@ -35,7 +35,7 @@ export function HomeMinimal({ sx, ...other }: BoxProps) {
       <SectionTitle
         caption="Visualizing Success"
         title="What's in"
-        txtGradient="Minimal?"
+        txtGradient="IAduit?"
         sx={{ mb: { xs: 5, md: 8 }, textAlign: { xs: 'center', md: 'left' } }}
       />
 

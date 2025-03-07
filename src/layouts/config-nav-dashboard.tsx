@@ -120,19 +120,42 @@ export const navDataCompanyAdmin = [
       },
       {
         title: 'Audits',
-        path: paths.dashboard.post.root,
+        path: paths.dashboard.audit.root,
         icon: ICONS.blog,
-        children: [
-          { title: 'List', path: paths.dashboard.post.root },
-          { title: 'Details', path: paths.dashboard.post.demo.details },
-          { title: 'Create', path: paths.dashboard.post.new },
-          { title: 'Edit', path: paths.dashboard.post.demo.edit },
-        ],
+        // children: [
+        //   { title: 'List', path: paths.dashboard.post.root },
+        //   { title: 'Details', path: paths.dashboard.post.demo.details },
+        //   { title: 'Create', path: paths.dashboard.post.new },
+        //   { title: 'Edit', path: paths.dashboard.post.demo.edit },
+        // ],
       },
       {
         title: 'Auditors',
         path: paths.dashboard.auditor.root,
         icon: ICONS.user,
+      },
+    ],
+  },
+];
+
+export const navDataAuditor = [
+  /**
+   * Overview
+   */
+  {
+    subheader: 'Overview',
+    items: [{ title: 'App', path: paths.dashboard.root, icon: ICONS.dashboard }],
+  },
+  /**
+   * Management
+   */
+  {
+    subheader: 'Audits',
+    items: [
+      {
+        title: 'Audits',
+        path: paths.dashboard.auditAns.root,
+        icon: ICONS.blog,
       },
     ],
   },

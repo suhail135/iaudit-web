@@ -37,7 +37,7 @@ export function HomeAdvertisement({ sx, ...other }: BoxProps) {
         sx={{ m: 0, color: 'common.white', typography: { xs: 'h2', md: 'h1' } }}
       >
         Get started with
-        <br /> Minimal kit
+        <br /> IAduit kit
         <Box
           component="span"
           sx={(theme) => ({
@@ -64,7 +64,7 @@ export function HomeAdvertisement({ sx, ...other }: BoxProps) {
             variant="contained"
             target="_blank"
             rel="noopener"
-            href={paths.minimalStore}
+            href={paths.IAduittore}
           >
             Purchase now
           </Button>

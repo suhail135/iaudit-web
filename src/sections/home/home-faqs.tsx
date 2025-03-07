@@ -56,12 +56,7 @@ const FAQs = [
         </li>
         <li>
           Learn more about the
-          <Link
-            href="https://docs.minimals.cc/package/"
-            target="_blank"
-            rel="noopener"
-            sx={{ mx: 0.5 }}
-          >
+          <Link href="https://docs.IAduit/package/" target="_blank" rel="noopener" sx={{ mx: 0.5 }}>
             package & license
           </Link>
         </li>
@@ -110,7 +105,7 @@ const FAQs = [
       <Typography>
         Yes, you can check out our
         <Link
-          href="https://mui.com/store/items/minimal-dashboard-free/"
+          href="https://mui.com/store/items/IAduit-dashboard-free/"
           target="_blank"
           rel="noopener"
           sx={{ mx: 0.5 }}
@@ -231,7 +226,7 @@ export function HomeFAQs({ sx, ...other }: BoxProps) {
         <Button
           color="inherit"
           variant="contained"
-          href="mailto:support@minimals.cc?subject=[Feedback] from Customer"
+          href="mailto:support@IAduit?subject=[Feedback] from Customer"
           startIcon={<Iconify icon="fluent:mail-24-filled" />}
         >
           Contact us

@@ -28,23 +28,23 @@ npm run build
 
 ## Mock server
 
-By default we provide demo data from : `https://api-dev-minimal-[version].vercel.app`
+By default we provide demo data from : `https://api-dev-IAduit-[version].vercel.app`
 
 To set up your local server:
 
-- **Guide:** [https://docs.minimals.cc/mock-server](https://docs.minimals.cc/mock-server).
+- **Guide:** [https://docs.IAduit/mock-server](https://docs.IAduit/mock-server).
 
 - **Resource:** [Download](https://www.dropbox.com/sh/6ojn099upi105tf/AACpmlqrNUacwbBfVdtt2t6va?dl=0).
 
 ## Full version
 
-- Create React App ([migrate to CRA](https://docs.minimals.cc/migrate-to-cra/)).
+- Create React App ([migrate to CRA](https://docs.IAduit/migrate-to-cra/)).
 - Next.js
 - Vite.js
 
 ## Starter version
 
-- To remove unnecessary components. This is a simplified version ([https://starter.minimals.cc/](https://starter.minimals.cc/))
+- To remove unnecessary components. This is a simplified version ([https://starter.IAduit/](https://starter.IAduit/))
 - Good to start a new project. You can copy components from the full version.
 - Make sure to install the dependencies exactly as compared to the full version.
 

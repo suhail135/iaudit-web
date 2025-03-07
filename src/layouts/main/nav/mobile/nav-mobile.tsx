@@ -75,7 +75,7 @@ export function NavMobile({ data, open, onClose, slots, sx }: NavMobileProps) {
             variant="contained"
             rel="noopener"
             target="_blank"
-            href={paths.minimalStore}
+            href={paths.IAduittore}
           >
             Purchase
           </Button>

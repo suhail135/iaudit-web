@@ -4,15 +4,9 @@ import useSWR from 'swr';
 import { useMemo } from 'react';
 
 import { keyBy } from 'src/utils/helper';
-import { fetcher, endpoints } from 'src/utils/axios';
+import { fetcher, endpoints, swrOptions } from 'src/utils/axios';
 
 // ----------------------------------------------------------------------
-
-const swrOptions = {
-  revalidateIfStale: false,
-  revalidateOnFocus: false,
-  revalidateOnReconnect: false,
-};
 
 // ----------------------------------------------------------------------
 

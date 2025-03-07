@@ -101,6 +101,18 @@ const AuditorListPage = lazy(() => import('src/pages/dashboard/auditor/list'));
 const AuditorEditPage = lazy(() => import('src/pages/dashboard/auditor/edit'));
 const AuditorCreatePage = lazy(() => import('src/pages/dashboard/auditor/new'));
 
+// Audit
+
+const AuditListPage = lazy(() => import('src/pages/dashboard/audit/list'));
+const AuditEditPage = lazy(() => import('src/pages/dashboard/audit/edit'));
+const AuditCreatePage = lazy(() => import('src/pages/dashboard/audit/new'));
+const AuditDetailsPage = lazy(() => import('src/pages/dashboard/audit/details'));
+
+// Audit Ans
+
+const AuditAnsListPage = lazy(() => import('src/pages/dashboard/audit-ans/list'));
+const AuditAnsFill = lazy(() => import('src/pages/dashboard/audit-ans/edit'));
+
 // ----------------------------------------------------------------------
 
 const layoutContent = (
@@ -185,6 +197,42 @@ export const dashboardRoutes = [
           {
             path: ':id/edit',
             element: <AuditorEditPage />,
+          },
+        ],
+      },
+      {
+        path: 'audit',
+        children: [
+          { element: <AuditListPage />, index: true },
+          {
+            path: 'list',
+            element: <AuditListPage />,
+          },
+          {
+            path: 'new',
+            element: <AuditCreatePage />,
+          },
+          {
+            path: ':id/details',
+            element: <AuditDetailsPage />,
+          },
+          {
+            path: ':id/edit',
+            element: <AuditEditPage />,
+          },
+        ],
+      },
+      {
+        path: 'audit-ans',
+        children: [
+          { element: <AuditAnsListPage />, index: true },
+          {
+            path: 'list',
+            element: <AuditAnsListPage />,
+          },
+          {
+            path: ':id/fill',
+            element: <AuditAnsFill />,
           },
         ],
       },

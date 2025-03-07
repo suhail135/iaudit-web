@@ -266,7 +266,7 @@ function PlanCard({ plan, sx, ...other }: PlanCardProps) {
           size="large"
           target="_blank"
           rel="noopener"
-          href={paths.minimalStore}
+          href={paths.IAduittore}
         >
           Get started
         </Button>
